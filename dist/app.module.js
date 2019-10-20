@@ -9,13 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const reps_controller_1 = require("./reps/reps.controller");
+const reps_service_1 = require("./reps/reps.service");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
         imports: [],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [app_controller_1.AppController, reps_controller_1.RepsController],
+        providers: [app_service_1.AppService, reps_service_1.RepsService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

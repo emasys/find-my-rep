@@ -1094,15 +1094,23 @@
         "signature": "e0e01013f40a172c13d53c88ce2695741df27852da7ede9e2e336c86c43c8ec5"
       },
       "../src/app.service.ts": {
-        "version": "eaf8514ce110fa428a93a27408df4d06d133dbd9ed0a775c315ddfdd507853a9",
+        "version": "58e6e1be4b05a3138e311151f4aa27a682f64f8b8274c3f67abb8ce493c22ac0",
         "signature": "653711fba8904aa27fd8911b63cf526e7b334e13a292da4cefdbbe179ac3f3f2"
       },
       "../src/app.controller.ts": {
         "version": "260f889b9e2b69f77be1155348eb345166aec664b3efff6720053c6844a41f28",
         "signature": "ef022c91ea9e75ab4082f2e881f9c4db7b346be2da706e876b253bebce5e6140"
       },
+      "../src/reps/reps.service.ts": {
+        "version": "753407a9eb7ea5a3855012ba0efb439a61986a1e28b9f8e22bf9b4b7f1eed207",
+        "signature": "61349847ebc2da4ab2d1860b4fdd677f060640f94fd8e690f9c26c34fd559575"
+      },
+      "../src/reps/reps.controller.ts": {
+        "version": "2121083a7dda1306a450494c4b0b0a869c25b2df887a9e5ea0b2ff36f2fc0b84",
+        "signature": "eab02b8779cc91d1de5231d281a2cfbe11a310259b3521581a53aeff41f18a05"
+      },
       "../src/app.module.ts": {
-        "version": "319f8e45e370ba3d33f0887e3046096714959d3764fc68b444885cfdb9c101dd",
+        "version": "623eb62b4bcd1e7272460d92e379870616a9958cf5cdeca7750f71bf9a50dd08",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {
@@ -3018,10 +3026,23 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/reps/reps.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/reps/reps.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/reps/reps.service.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/app.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/app.controller.ts",
         "../src/app.service.ts",
+        "../src/reps/reps.controller.ts",
+        "../src/reps/reps.service.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -5057,6 +5078,9 @@
       "../src/app.controller.ts": [
         "../src/app.service.ts"
       ],
+      "../src/reps/reps.controller.ts": [
+        "../src/reps/reps.service.ts"
+      ],
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/common/interfaces/index.d.ts",
@@ -5740,6 +5764,7 @@
       "../node_modules/@nestjs/common/index.d.ts",
       "../src/app.service.ts",
       "../src/app.controller.ts",
+      "../src/reps/reps.service.ts",
       "../src/app.module.ts",
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts",
       "../node_modules/@nestjs/core/adapters/index.d.ts",
@@ -5808,7 +5833,8 @@
       "../node_modules/@types/webpack-sources/index.d.ts",
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
-      "../node_modules/@types/yargs/index.d.ts"
+      "../node_modules/@types/yargs/index.d.ts",
+      "../src/reps/reps.controller.ts"
     ]
   },
   "version": "3.6.4"

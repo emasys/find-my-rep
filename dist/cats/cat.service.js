@@ -7,13 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-let AppService = class AppService {
-    getHello() {
-        return 'Welcome to FindMyRep, we trust you\'ll have a swell time';
+let CatService = class CatService {
+    findCats() {
+        return 'This action returns all cats';
+    }
+    findOneCat(id, type) {
+        return `hey I found one cat with id ${id} of type ${type}`;
     }
 };
-AppService = __decorate([
+CatService = __decorate([
     common_1.Injectable()
-], AppService);
-exports.AppService = AppService;
-//# sourceMappingURL=app.service.js.map
+], CatService);
+exports.CatService = CatService;
+//# sourceMappingURL=cat.service.js.map
