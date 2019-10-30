@@ -1,13 +1,20 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { RepsService } from './reps.service';
+import { Reps } from './reps.entity';
+import { CreateRep } from './reps.dto';
 
 @Controller('reps')
 export class RepsController {
   constructor(private readonly appService: RepsService) {}
 
   @Get()
-  fetchAllReps(): string {
-    return this.appService.getAllReps();
+  fetchAllReps(): Promise<Reps[]> {
+    return this.appService.findAll();
+  }
+
+  @Post('add')
+  addRep(@Body() createRep: CreateRep): Promise<Reps> {
+    return this.appService.create(createRep);
   }
 
   @Get(':region')
