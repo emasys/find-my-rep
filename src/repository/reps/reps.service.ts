@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reps } from './reps.entity';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { CreateRep } from './reps.dto';
 
 @Injectable()
@@ -23,15 +23,26 @@ export class RepsService {
     return newRep;
   }
 
-  getAllReps(): string {
-    return 'you are now viewing all government representatives from all region';
+  async updateRep(body: CreateRep, id: number): Promise<Reps> {
+    const rep = await this.repsRepository.findOne(id);
+    rep.name = body.name || rep.name;
+    rep.region = body.region || rep.region;
+    const updatedRep = await this.repsRepository.save(rep);
+    return updatedRep;
   }
 
-  getRepsFromOneRegion(region: string): string {
-    return `you are now viewing all government representatives from ${region}`;
+  async deleteRep(id: number): Promise<DeleteResult> {
+    const res = await this.repsRepository.delete(id);
+    return res;
   }
 
-  getOneRep(id: number, region: string): string {
-    return `you are now viewing one government representative from ${region},  id - ${id}`;
+  async getRepsFromOneRegion(region: string): Promise<Reps[]> {
+    const reps = await this.repsRepository.find({ region });
+    return reps;
+  }
+
+  async getOneRep(id: number, region: string): Promise<Reps> {
+    const reps = await this.repsRepository.findOne({ region, id });
+    return reps;
   }
 }
