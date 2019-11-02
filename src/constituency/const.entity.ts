@@ -7,7 +7,6 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { State } from '../state/state.entity';
-import { Rep } from '../reps/reps.entity';
 
 @Entity()
 export class Constituency {

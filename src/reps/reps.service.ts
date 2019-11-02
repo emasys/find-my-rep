@@ -36,14 +36,4 @@ export class RepsService {
     const res = await this.repsRepository.delete(id);
     return res;
   }
-
-  // async getRepsFromOneRegion(region: string): Promise<Reps[]> {
-  //   const reps = await this.repsRepository.find({ region });
-  //   return reps;
-  // }
-
-  // async getOneRep(id: number, region: string): Promise<Reps> {
-  //   const reps = await this.repsRepository.findOne({ region, id });
-  //   return reps;
-  // }
 }
