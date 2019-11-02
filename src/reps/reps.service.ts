@@ -15,20 +15,21 @@ export class RepsService {
     return this.repsRepository.find();
   }
 
-  async create(body: CreateRep): Promise<Reps> {
+  create(body: CreateRep): Promise<Reps> {
     const rep = new Reps();
-    rep.name = body.name;
-    rep.region = body.region;
-    const newRep = await this.repsRepository.save(rep);
-    return newRep;
+    rep.names = body.names;
+    rep.constituencyId = body.constituencyId;
+    rep.previousOffice = body.previousOffice;
+    rep.yearsInOffice = body.yearsInOffice;
+    return this.repsRepository.save(rep);
   }
 
   async updateRep(body: CreateRep, id: number): Promise<Reps> {
     const rep = await this.repsRepository.findOne(id);
-    rep.name = body.name || rep.name;
-    rep.region = body.region || rep.region;
-    const updatedRep = await this.repsRepository.save(rep);
-    return updatedRep;
+    rep.names = body.names || rep.names;
+    rep.previousOffice = body.previousOffice || rep.previousOffice;
+    rep.yearsInOffice = body.yearsInOffice || rep.yearsInOffice;
+    return this.repsRepository.save(rep);
   }
 
   async deleteRep(id: number): Promise<DeleteResult> {
@@ -36,13 +37,13 @@ export class RepsService {
     return res;
   }
 
-  async getRepsFromOneRegion(region: string): Promise<Reps[]> {
-    const reps = await this.repsRepository.find({ region });
-    return reps;
-  }
+  // async getRepsFromOneRegion(region: string): Promise<Reps[]> {
+  //   const reps = await this.repsRepository.find({ region });
+  //   return reps;
+  // }
 
-  async getOneRep(id: number, region: string): Promise<Reps> {
-    const reps = await this.repsRepository.findOne({ region, id });
-    return reps;
-  }
+  // async getOneRep(id: number, region: string): Promise<Reps> {
+  //   const reps = await this.repsRepository.findOne({ region, id });
+  //   return reps;
+  // }
 }

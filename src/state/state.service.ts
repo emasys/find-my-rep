@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { State } from './state.entity';
 import { Repository, DeleteResult } from 'typeorm';
-import { CreateRep } from './state.dto';
+import { AddState } from './state.dto';
 
 @Injectable()
 export class StateService {
@@ -15,13 +15,12 @@ export class StateService {
     return this.stateRepository.find();
   }
 
-  // async create(body: CreateRep): Promise<State> {
-  //   const rep = new State();
-  //   rep.name = body.name;
-  //   rep.region = body.region;
-  //   const newRep = await this.stateRepository.save(rep);
-  //   return newRep;
-  // }
+  create(body: AddState): Promise<State> {
+    const state = new State();
+    state.name = body.name;
+    state.shortCode = body.shortCode;
+    return this.stateRepository.save(state);
+  }
 
   // async updateRep(body: CreateRep, id: number): Promise<State> {
   //   const rep = await this.stateRepository.findOne(id);

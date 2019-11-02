@@ -7,21 +7,15 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Reps {
+export class Constituency {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 500 })
-  names: string;
-
-  @Column({ nullable: true })
-  constituencyId: number;
+  @Column()
+  name: string;
 
   @Column()
-  yearsInOffice: number;
-
-  @Column()
-  previousOffice: string;
+  stateId: number;
 
   @CreateDateColumn()
   createdAt: string;
