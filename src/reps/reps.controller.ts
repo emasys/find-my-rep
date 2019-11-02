@@ -16,27 +16,27 @@ import { Request } from 'express';
 
 @Controller('reps')
 export class RepsController {
-  constructor(private readonly appService: RepsService) {}
+  constructor(private readonly repService: RepsService) {}
 
   @Get()
   fetchAllReps(): Promise<Reps[]> {
-    return this.appService.findAll();
+    return this.repService.findAll();
   }
 
   @Get(':region')
   fetchRepsFromOneRegion(@Param() params: { region: string }): Promise<Reps[]> {
-    return this.appService.getRepsFromOneRegion(params.region);
+    return this.repService.getRepsFromOneRegion(params.region);
   }
 
   @Get(':region/:id')
   fetchOneRep(@Param() params: { region: string; id: number }): Promise<Reps> {
     const { region, id } = params;
-    return this.appService.getOneRep(id, region);
+    return this.repService.getOneRep(id, region);
   }
 
   @Post('add')
   addRep(@Body() createRep: CreateRep): Promise<Reps> {
-    return this.appService.create(createRep);
+    return this.repService.create(createRep);
   }
 
   @Put(':id/update')
@@ -45,7 +45,7 @@ export class RepsController {
     @Param() params: { id: number },
   ): Promise<Reps> {
     const { id } = params;
-    return this.appService.updateRep(updateRep, id);
+    return this.repService.updateRep(updateRep, id);
   }
 
   @Delete(':id/delete')
@@ -54,7 +54,7 @@ export class RepsController {
     @Req() request: Request,
   ): Promise<{ message: string, status: string}> {
     const { id } = params;
-    const response = await this.appService.deleteRep(id);
+    const response = await this.repService.deleteRep(id);
     if (response.affected) {
       return { message: 'rep successfully deleted', status: 'success' };
     }
