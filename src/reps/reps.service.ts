@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Reps } from './reps.entity';
+import { Rep } from './reps.entity';
 import { Repository, DeleteResult } from 'typeorm';
 import { CreateRep } from './reps.dto';
 
 @Injectable()
 export class RepsService {
   constructor(
-    @InjectRepository(Reps)
-    private readonly repsRepository: Repository<Reps>,
+    @InjectRepository(Rep)
+    private readonly repsRepository: Repository<Rep>,
   ) {}
 
-  findAll(): Promise<Reps[]> {
+  findAll(): Promise<Rep[]> {
     return this.repsRepository.find();
   }
 
-  create(body: CreateRep): Promise<Reps> {
-    const rep = new Reps();
+  create(body: CreateRep): Promise<Rep> {
+    const rep = new Rep();
     rep.names = body.names;
     rep.constituencyId = body.constituencyId;
     rep.previousOffice = body.previousOffice;
@@ -24,7 +24,7 @@ export class RepsService {
     return this.repsRepository.save(rep);
   }
 
-  async updateRep(body: CreateRep, id: number): Promise<Reps> {
+  async updateRep(body: CreateRep, id: number): Promise<Rep> {
     const rep = await this.repsRepository.findOne(id);
     rep.names = body.names || rep.names;
     rep.previousOffice = body.previousOffice || rep.previousOffice;

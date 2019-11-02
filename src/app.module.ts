@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { State } from './state/state.entity';
 import { StateModule } from './state/state.module';
 
-import { Reps } from './reps/reps.entity';
+import { Rep } from './reps/reps.entity';
 import { RepsModule } from './reps/reps.module';
 
 import { Constituency } from './constituency/const.entity';
@@ -16,7 +16,7 @@ import { ConstModule } from './constituency/const.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      entities: [Reps, State, Constituency],
+      entities: [Rep, State, Constituency],
     }),
     RepsModule,
     StateModule,

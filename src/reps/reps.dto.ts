@@ -2,7 +2,6 @@ import { IsString, IsNotEmpty, IsAlpha, IsNumber } from 'class-validator';
 
 export class CreateRep {
   @IsString()
-  @IsAlpha()
   @IsNotEmpty()
   readonly names: string;
 

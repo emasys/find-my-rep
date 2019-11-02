@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { Constituency } from '../constituency/const.entity';
 
 @Entity()
 export class State {
@@ -16,6 +19,11 @@ export class State {
 
   @Column()
   shortCode: string;
+
+  @OneToMany(type => Constituency, constituency => constituency.state, {
+    onDelete: 'SET NULL',
+  })
+  constituency: Constituency;
 
   @CreateDateColumn()
   createdAt: string;

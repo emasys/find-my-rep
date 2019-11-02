@@ -9,22 +9,22 @@ import {
   Req,
 } from '@nestjs/common';
 import { RepsService } from './reps.service';
-import { Reps } from './reps.entity';
+import { Rep } from './reps.entity';
 import { CreateRep } from './reps.dto';
 import { DeleteResult } from 'typeorm';
 import { Request } from 'express';
 
-@Controller('reps')
+@Controller('rep')
 export class RepsController {
   constructor(private readonly repService: RepsService) {}
 
   @Get()
-  fetchAllReps(): Promise<Reps[]> {
+  fetchAllReps(): Promise<Rep[]> {
     return this.repService.findAll();
   }
 
   @Post('add')
-  addRep(@Body() createRep: CreateRep): Promise<Reps> {
+  addRep(@Body() createRep: CreateRep): Promise<Rep> {
     return this.repService.create(createRep);
   }
 

@@ -4,20 +4,27 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Constituency } from '../constituency/const.entity';
 
 @Entity()
-export class Reps {
+export class Rep {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 500 })
+  @Column()
   names: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false, type: 'int' })
   constituencyId: number;
 
-  @Column()
+  @OneToOne(type => Constituency, { onDelete: 'SET NULL' })
+  @JoinColumn()
+  constituency: Constituency;
+
+  @Column('int')
   yearsInOffice: number;
 
   @Column()
