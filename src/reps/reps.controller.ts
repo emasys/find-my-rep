@@ -7,27 +7,32 @@ import {
   Put,
   Delete,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { RepsService } from './reps.service';
 import { Rep } from './reps.entity';
 import { CreateRep, RepParam } from './reps.dto';
 import { DeleteResult } from 'typeorm';
 import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('rep')
 export class RepsController {
   constructor(private readonly repService: RepsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   fetchAllReps(): Promise<Rep[]> {
     return this.repService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('add')
   addRep(@Body() createRep: CreateRep): Promise<Rep> {
     return this.repService.create(createRep);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id/update')
   updateOneRep(
     @Body() updateRep: CreateRep,
@@ -37,10 +42,11 @@ export class RepsController {
     return this.repService.updateRep(updateRep, id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id/delete')
   async deleteOneRep(
     @Param() params: RepParam,
-  ): Promise<{ message: string, status: string}> {
+  ): Promise<{ message: string; status: string }> {
     const { id } = params;
     const response = await this.repService.deleteRep(id);
     if (response.affected) {

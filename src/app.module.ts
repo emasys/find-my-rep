@@ -10,6 +10,12 @@ import { RepsModule } from './reps/reps.module';
 
 import { Constituency } from './constituency/const.entity';
 import { ConstModule } from './constituency/const.module';
+// import { UserService } from './auth/user/user.service';
+// import { UserService } from './user/user.service';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './user/user.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -19,8 +25,10 @@ import { ConstModule } from './constituency/const.module';
     RepsModule,
     StateModule,
     ConstModule,
+    AuthModule,
+    UsersModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {
