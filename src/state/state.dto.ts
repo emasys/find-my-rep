@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsEmpty } from 'class-validator';
 
 export class AddState {
   @IsString()
@@ -8,4 +8,7 @@ export class AddState {
   @IsString()
   @IsNotEmpty()
   readonly shortCode: string;
+
+  @IsEmpty()
+  userId: number;
 }

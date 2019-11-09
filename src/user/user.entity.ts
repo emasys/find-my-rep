@@ -6,26 +6,23 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Constituency } from '../constituency/const.entity';
+import { State } from '../state/state.entity';
 
 @Entity()
-export class State {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  name: string;
+  @Column({ nullable: true, unique: true })
+  username: string;
 
   @Column()
-  shortCode: string;
+  password: string;
 
-  @OneToMany(type => Constituency, constituency => constituency.state, {
+  @OneToMany(type => State, state => state.addedById, {
     onDelete: 'SET NULL',
   })
-  constituency: Constituency;
-
-  @Column({ nullable: true })
-  addedById: number;
+  addedBy: State;
 
   @CreateDateColumn()
   createdAt: string;

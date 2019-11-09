@@ -10,6 +10,8 @@ import { RepsModule } from './reps/reps.module';
 
 import { Constituency } from './constituency/const.entity';
 import { ConstModule } from './constituency/const.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { ConstModule } from './constituency/const.module';
     RepsModule,
     StateModule,
     ConstModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
