@@ -12,11 +12,12 @@ import { Constituency } from './constituency/const.entity';
 import { ConstModule } from './constituency/const.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './user/user.module';
+import { Users } from './user/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      entities: [Rep, State, Constituency],
+      entities: [Rep, State, Constituency, Users],
     }),
     RepsModule,
     StateModule,

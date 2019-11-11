@@ -4,6 +4,7 @@
   "jsRules": {
     "no-unused-expression": true
   },
+  "allowJs": true, 
   "rules": {
     "quotemark": [true, "single"],
     "member-access": [false],

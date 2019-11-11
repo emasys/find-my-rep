@@ -1,0 +1,56 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import * as request from 'supertest';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Rep } from '../src/reps/reps.entity';
+import { State } from '../src/state/state.entity';
+import { Constituency } from '../src/constituency/const.entity';
+import { Users } from '../src/user/user.entity';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from '../src/auth/constants';
+import { UsersModule } from '../src/user/user.module';
+import { AuthService } from '../src/auth/auth.service';
+import { LocalStrategy } from '../src/auth/local.strategy';
+import { JwtStrategy } from '../src/auth/jwt.strategy';
+import { AuthController } from '../src/auth/auth.controller';
+
+describe('AppController (e2e)', () => {
+  let app;
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [
+        TypeOrmModule.forRoot({
+          entities: [Rep, State, Constituency, Users],
+        }),
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.register({
+          secret: jwtConstants.secret,
+          signOptions: { expiresIn: '1d' },
+        }),
+        UsersModule,
+      ],
+      providers: [AuthService, LocalStrategy, JwtStrategy],
+      exports: [AuthService],
+      controllers: [AuthController],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/auth/login (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .set('Accept', 'application/json')
+      .send({ username: 'emasys', password: 'password' })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('access_token');
+      });
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
+});

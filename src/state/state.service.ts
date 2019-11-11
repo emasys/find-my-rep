@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { State } from './state.entity';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AddState } from './state.dto';
 
 @Injectable()
