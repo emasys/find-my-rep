@@ -6,14 +6,11 @@ import {
   Body,
   Put,
   Delete,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { RepsService } from './reps.service';
 import { Rep } from './reps.entity';
 import { CreateRep, RepParam } from './reps.dto';
-import { DeleteResult } from 'typeorm';
-import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('rep')
@@ -27,7 +24,7 @@ export class RepsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('add')
+  @Post()
   addRep(@Body() createRep: CreateRep): Promise<Rep> {
     return this.repService.create(createRep);
   }

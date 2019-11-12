@@ -1,7 +1,7 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { State } from './state.entity';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AddState } from './state.dto';
 
 @Injectable()
@@ -24,6 +24,9 @@ export class StateService {
       const response = await this.stateRepository.save(state);
       return response;
     } catch (error) {
+      if (error.message && error.message.includes('duplicate')) {
+        throw new ConflictException(error.message);
+      }
       throw new BadRequestException(error.message);
     }
   }

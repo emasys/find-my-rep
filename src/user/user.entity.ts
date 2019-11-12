@@ -13,10 +13,10 @@ export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true, unique: true })
+  @Column({ nullable: false, unique: true })
   username: string;
 
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
   @OneToMany(type => State, state => state.addedById, {

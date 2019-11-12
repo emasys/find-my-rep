@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Constituency } from './const.entity';
 import { Repository } from 'typeorm';
@@ -15,10 +15,17 @@ export class ConstService {
     return this.stateRepository.find();
   }
 
-  create(body: AddConst): Promise<Constituency> {
+  async create(body: AddConst): Promise<Constituency> {
     const constituency = new Constituency();
     constituency.name = body.name;
     constituency.stateId = body.stateId;
-    return this.stateRepository.save(constituency);
+    try {
+      return await this.stateRepository.save(constituency);
+    } catch (error) {
+      if (error.message && error.message.includes('duplicate')) {
+        throw new ConflictException(error.message);
+      }
+      throw new BadRequestException(error.message);
+    }
   }
 }
