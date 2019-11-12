@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../user/user.service';
@@ -32,7 +33,7 @@ export class AuthService {
     pass: string,
   ): Promise<{ id: number; username: string }> {
     const user = await this.usersService.findOne(username);
-    const hashedPassword = await this.compareHash(pass, user.password);
+    const hashedPassword = await this.compareHash(pass, user && user.password || '');
     if (user && hashedPassword) {
       const { password, createdAt, updatedAt, addedBy, ...result } = user;
       return result;
@@ -53,6 +54,9 @@ export class AuthService {
         access_token: this.jwtService.sign({ username, id }),
       };
     } catch (error) {
+      if (error.message && error.message.includes('duplicate')) {
+        throw new ConflictException(error.message);
+      }
       throw new BadRequestException(error.message);
     }
   }
