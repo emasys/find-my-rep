@@ -18,8 +18,9 @@ import { RepsModule } from '../src/reps/reps.module';
 import { StateModule } from '../src/state/state.module';
 import { ConstModule } from '../src/constituency/const.module';
 import { AuthModule } from '../src/auth/auth.module';
+import { generateDummyData } from './testUtil';
 
-describe('StateController (e2e)', () => {
+describe('RepsController (e2e)', () => {
   let app;
   let token;
 
@@ -49,64 +50,67 @@ describe('StateController (e2e)', () => {
     await app.init();
   });
 
-  it('create dummy user (POST) valid', () => {
-    return request(app.getHttpServer())
-      .post('/auth/signup')
-      .set('Accept', 'application/json')
-      .send({ username: 'emasys', password: 'password' })
-      .expect(201)
-      .expect(res => {
-        token = res.body.access_token;
-        expect(res.body).toHaveProperty('access_token');
-      });
+  it('should generate dummy data', async () => {
+    token = await generateDummyData(app);
+    expect(token).toBeDefined();
   });
 
-  it('/state (POST) reject unauthorized request', () => {
+  it('/rep (POST) reject unauthorized request', () => {
     return request(app.getHttpServer())
-      .post('/state')
-      .send({ name: 'some state' })
+      .post('/rep')
+      .send({ constituency: 'some area' })
       .expect(401)
       .expect(res => {
         expect(res.body).toEqual({ statusCode: 401, error: 'Unauthorized' });
       });
   });
 
-  it('/state (POST) reject incomplete data', () => {
+  it('/rep (POST) reject incomplete data', () => {
     return request(app.getHttpServer())
-      .post('/state')
+      .post('/rep')
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'some state' })
+      .send({ names: 'some guy' })
       .expect(400)
       .expect(res => {
         expect(res.body).toHaveProperty('error');
       });
   });
 
-  it('/state (POST) valid', () => {
+  it('/rep (POST) valid', () => {
     return request(app.getHttpServer())
-      .post('/state')
+      .post('/rep')
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'some state', shortCode: 'SS' })
-      .expect(201)
-      .expect(res => {
-        expect(res.body).toHaveProperty('addedById');
-      });
+      .send({
+        names: 'some guy',
+        constituencyId: 1,
+        yearsInOffice: 1,
+        previousOffice: 'SecGen',
+      })
+      .expect(201);
   });
 
-  it('/state (POST) reject duplicate', () => {
+  it('/rep/id/update (PUT) valid', () => {
     return request(app.getHttpServer())
-      .post('/state')
+      .put('/rep/2/update')
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'some state', shortCode: 'SS' })
-      .expect(409)
-      .expect(res => {
-        expect(res.body).toHaveProperty('error');
-      });
+      .send({
+        names: 'random guy',
+        yearsInOffice: 10,
+        previousOffice: 'SecGen',
+      })
+      .expect(200);
   });
 
-  it('/state (GET) valid', () => {
+  it('/rep/id/ (DELETE) valid', () => {
     return request(app.getHttpServer())
-      .get('/state')
+      .put('/rep/2/update')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+  });
+
+  it('/rep (GET) fetch all reps', () => {
+    return request(app.getHttpServer())
+      .get('/rep')
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
       .expect(res => {

@@ -20,7 +20,7 @@ import { ConstModule } from '../src/constituency/const.module';
 import { AuthModule } from '../src/auth/auth.module';
 import { generateDummyData } from './testUtil';
 
-describe('StateController (e2e)', () => {
+describe('RepsController (e2e)', () => {
   let app;
   let token;
 
@@ -55,52 +55,44 @@ describe('StateController (e2e)', () => {
     expect(token).toBeDefined();
   });
 
-  it('/state (POST) reject unauthorized request', () => {
+  it('/constituency (POST) reject unauthorized request', () => {
     return request(app.getHttpServer())
-      .post('/state')
-      .send({ name: 'some state' })
+      .post('/constituency')
+      .send({ constituency: 'some area' })
       .expect(401)
       .expect(res => {
         expect(res.body).toEqual({ statusCode: 401, error: 'Unauthorized' });
       });
   });
 
-  it('/state (POST) reject incomplete data', () => {
+  it('/constituency (POST) reject incomplete data', () => {
     return request(app.getHttpServer())
-      .post('/state')
+      .post('/constituency')
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'some state' })
+      .send({ name: 'some guy' })
       .expect(400)
       .expect(res => {
         expect(res.body).toHaveProperty('error');
       });
   });
 
-  it('/state (POST) valid', () => {
+  it('/constituency (POST) valid', () => {
     return request(app.getHttpServer())
-      .post('/state')
+      .post('/constituency')
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'some state', shortCode: 'SS' })
+      .send({
+        name: 'some constituency',
+        stateId: 1,
+      })
       .expect(201)
       .expect(res => {
-        expect(res.body).toHaveProperty('addedById');
+        expect(res.body).toHaveProperty('createdAt');
       });
   });
 
-  it('/state (POST) reject duplicate', () => {
+  it('/constituency (GET) fetch all constituencies', () => {
     return request(app.getHttpServer())
-      .post('/state')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'Lagos', shortCode: 'LA' })
-      .expect(409)
-      .expect(res => {
-        expect(res.body).toHaveProperty('error');
-      });
-  });
-
-  it('/state (GET) valid', () => {
-    return request(app.getHttpServer())
-      .get('/state')
+      .get('/constituency')
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
       .expect(res => {

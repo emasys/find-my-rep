@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadGatewayException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rep } from './reps.entity';
 import { Repository, DeleteResult } from 'typeorm';
@@ -15,13 +15,17 @@ export class RepsService {
     return this.repsRepository.find();
   }
 
-  create(body: CreateRep): Promise<Rep> {
+  async create(body: CreateRep): Promise<Rep> {
     const rep = new Rep();
     rep.names = body.names;
     rep.constituencyId = body.constituencyId;
     rep.previousOffice = body.previousOffice;
     rep.yearsInOffice = body.yearsInOffice;
-    return this.repsRepository.save(rep);
+    try {
+      return await this.repsRepository.save(rep);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async updateRep(body: CreateRep, id: number): Promise<Rep> {

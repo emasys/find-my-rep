@@ -16,7 +16,7 @@ export class ConstController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  addStates(@Body() body: AddConst): Promise<Constituency> {
+  addConstituency(@Body() body: AddConst): Promise<Constituency> {
     return this.service.create(body);
   }
 }
