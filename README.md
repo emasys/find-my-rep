@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.com/emasys/find-my-rep.svg?branch=master)](https://travis-ci.com/emasys/find-my-rep)
+
 ## Description
 
 Wait for it
