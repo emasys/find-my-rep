@@ -3,7 +3,7 @@
 
 ## Description
 
-Wait for it
+Find the constituency representatives of any region in Nigeria easily. More info comming up soon.
 
 ## Installation
 
