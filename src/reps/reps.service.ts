@@ -1,8 +1,13 @@
-import { Injectable, BadGatewayException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadGatewayException,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rep } from './reps.entity';
 import { Repository, DeleteResult } from 'typeorm';
-import { CreateRep } from './reps.dto';
+import { CreateRep, RepParam } from './reps.dto';
 
 @Injectable()
 export class RepsService {
@@ -27,6 +32,21 @@ export class RepsService {
       return await this.repsRepository.save(rep);
     } catch (error) {
       throw new BadRequestException(error.message);
+    }
+  }
+
+  async findOne(id: number): Promise<Rep> {
+    try {
+      const rep = await this.repsRepository.findOne(id);
+      if (!rep) {
+        throw new NotFoundException();
+      }
+      return rep;
+    } catch (error) {
+      if (error.message.statusCode === 404) {
+        return error.message;
+      }
+      throw new BadRequestException();
     }
   }
 

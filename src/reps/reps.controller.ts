@@ -40,6 +40,13 @@ export class RepsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
+  findOneRep(@Param() params: RepParam): Promise<Rep> {
+    const { id } = params;
+    return this.repService.findOne(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id/delete')
   async deleteOneRep(
     @Param() params: RepParam,

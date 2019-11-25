@@ -33,7 +33,7 @@ export class CreateRep {
 
 // tslint:disable-next-line:max-classes-per-file
 export class RepParam {
-  @IsNumber()
+  // @IsNumber()
   @IsNotEmpty()
   readonly id: number;
 }
