@@ -13,6 +13,7 @@ import { ConstModule } from './constituency/const.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './user/user.module';
 import { Users } from './user/user.entity';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Users } from './user/user.entity';
     ConstModule,
     AuthModule,
     UsersModule,
+    SearchModule,
   ],
   controllers: [],
   providers: [],

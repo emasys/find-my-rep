@@ -24,6 +24,15 @@ export class RepsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get(':constituencyId/constituency')
+  fetchAllRepsInConst(@Param() param: { constituencyId: number }): Promise<
+    Rep[]
+  > {
+    const { constituencyId } = param;
+    return this.repService.findAllRepsInOneConstituency(constituencyId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   addRep(@Body() createRep: CreateRep): Promise<Rep> {
     return this.repService.create(createRep);

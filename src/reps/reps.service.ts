@@ -1,13 +1,12 @@
 import {
   Injectable,
-  BadGatewayException,
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rep } from './reps.entity';
-import { Repository, DeleteResult } from 'typeorm';
-import { CreateRep, RepParam } from './reps.dto';
+import { Repository, DeleteResult, Like } from 'typeorm';
+import { CreateRep } from './reps.dto';
 
 @Injectable()
 export class RepsService {
@@ -47,6 +46,24 @@ export class RepsService {
         return error.message;
       }
       throw new BadRequestException();
+    }
+  }
+
+  async findAllRepsInOneConstituency(constituencyId: number): Promise<Rep[]> {
+    const reps = await this.repsRepository.find({ where: { constituencyId } });
+    return reps;
+  }
+
+  async searchRep(name: string): Promise<Rep[]> {
+    try {
+      const rep = await this.repsRepository
+        .createQueryBuilder('rep')
+        .leftJoinAndSelect('rep.constituency', 'constituency')
+        .where({ names: Like(`%${name.toLowerCase()}%`) })
+        .getMany();
+      return rep;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 

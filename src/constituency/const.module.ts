@@ -7,6 +7,7 @@ import { Constituency } from './const.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Constituency])],
   providers: [ConstService],
+  exports: [ConstService],
   controllers: [ConstController],
 })
 export class ConstModule {}
