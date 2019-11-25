@@ -21,6 +21,8 @@ export class RepsService {
     rep.constituencyId = body.constituencyId;
     rep.previousOffice = body.previousOffice;
     rep.yearsInOffice = body.yearsInOffice;
+    rep.phone = body.phone;
+    rep.email = body.email;
     try {
       return await this.repsRepository.save(rep);
     } catch (error) {
