@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { State } from './state.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { AddState } from './state.dto';
 
 @Injectable()
@@ -27,6 +27,19 @@ export class StateService {
       if (error.message && error.message.includes('duplicate')) {
         throw new ConflictException(error.message);
       }
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async searchState(name: string): Promise<State[]> {
+    try {
+      const constituency = await this.stateRepository
+        .createQueryBuilder('state')
+        .leftJoinAndSelect('state.constituency', 'constituency')
+        .where({ name: Like(`%${name.toLowerCase()}%`) })
+        .getMany();
+      return constituency;
+    } catch (error) {
       throw new BadRequestException(error.message);
     }
   }

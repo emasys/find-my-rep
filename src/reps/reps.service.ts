@@ -1,7 +1,11 @@
-import { Injectable, BadGatewayException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rep } from './reps.entity';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository, DeleteResult, Like } from 'typeorm';
 import { CreateRep } from './reps.dto';
 
 @Injectable()
@@ -21,8 +25,43 @@ export class RepsService {
     rep.constituencyId = body.constituencyId;
     rep.previousOffice = body.previousOffice;
     rep.yearsInOffice = body.yearsInOffice;
+    rep.phone = body.phone;
+    rep.email = body.email;
     try {
       return await this.repsRepository.save(rep);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async findOne(id: number): Promise<Rep> {
+    try {
+      const rep = await this.repsRepository.findOne(id);
+      if (!rep) {
+        throw new NotFoundException();
+      }
+      return rep;
+    } catch (error) {
+      if (error.message.statusCode === 404) {
+        return error.message;
+      }
+      throw new BadRequestException();
+    }
+  }
+
+  async findAllRepsInOneConstituency(constituencyId: number): Promise<Rep[]> {
+    const reps = await this.repsRepository.find({ where: { constituencyId } });
+    return reps;
+  }
+
+  async searchRep(name: string): Promise<Rep[]> {
+    try {
+      const rep = await this.repsRepository
+        .createQueryBuilder('rep')
+        .leftJoinAndSelect('rep.constituency', 'constituency')
+        .where({ names: Like(`%${name.toLowerCase()}%`) })
+        .getMany();
+      return rep;
     } catch (error) {
       throw new BadRequestException(error.message);
     }

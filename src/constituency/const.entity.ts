@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToOne,
 } from 'typeorm';
 import { State } from '../state/state.entity';
+import { Rep } from '../reps/reps.entity';
 
 @Entity()
 export class Constituency {
@@ -23,6 +25,9 @@ export class Constituency {
     onDelete: 'SET NULL',
   })
   state: State[];
+
+  @OneToOne(type => Rep, { onDelete: 'SET NULL' })
+  rep: Rep;
 
   @CreateDateColumn()
   createdAt: string;

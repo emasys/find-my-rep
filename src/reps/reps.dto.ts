@@ -1,4 +1,9 @@
-import { IsString, IsNotEmpty, IsAlpha, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsEmail,
+} from 'class-validator';
 
 export class CreateRep {
   @IsString()
@@ -11,6 +16,14 @@ export class CreateRep {
 
   @IsNumber()
   @IsNotEmpty()
+  readonly phone: number;
+
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
+
+  @IsNumber()
+  @IsNotEmpty()
   readonly yearsInOffice: number;
 
   @IsString()
@@ -20,7 +33,7 @@ export class CreateRep {
 
 // tslint:disable-next-line:max-classes-per-file
 export class RepParam {
-  @IsNumber()
+  // @IsNumber()
   @IsNotEmpty()
   readonly id: number;
 }

@@ -24,6 +24,15 @@ export class RepsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get(':constituencyId/constituency')
+  fetchAllRepsInConst(@Param() param: { constituencyId: number }): Promise<
+    Rep[]
+  > {
+    const { constituencyId } = param;
+    return this.repService.findAllRepsInOneConstituency(constituencyId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   addRep(@Body() createRep: CreateRep): Promise<Rep> {
     return this.repService.create(createRep);
@@ -37,6 +46,13 @@ export class RepsController {
   ): Promise<Rep> {
     const { id } = params;
     return this.repService.updateRep(updateRep, id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
+  findOneRep(@Param() params: RepParam): Promise<Rep> {
+    const { id } = params;
+    return this.repService.findOne(id);
   }
 
   @UseGuards(AuthGuard('jwt'))

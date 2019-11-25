@@ -17,6 +17,12 @@ export class Rep {
   @Column()
   names: string;
 
+  @Column({ nullable: true })
+  phone: number;
+
+  @Column({ nullable: true })
+  email: string;
+
   @Column({ nullable: false, type: 'int' })
   constituencyId: number;
 

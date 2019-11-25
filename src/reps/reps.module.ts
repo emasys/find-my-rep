@@ -7,6 +7,7 @@ import { Rep } from './reps.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Rep])],
   providers: [RepsService],
+  exports: [RepsService],
   controllers: [RepsController],
 })
 export class RepsModule { }
