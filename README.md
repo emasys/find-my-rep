@@ -35,6 +35,11 @@ $ npm run test
 $ npm run test:cov
 ```
 
+### API Documentation
+```
+/docs
+```
+
 ## License
 
   This project is [MIT licensed](LICENSE).
